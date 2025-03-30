@@ -12,3 +12,21 @@ header a {
     padding: 8px 16px;
     border-radius: 8px;
 }
+
+main {
+    display: block;
+    margin: auto;
+    padding-top: 16px;
+    text-align: center;
+}
+
+.secondary {
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    color: bisque;
+    background-color: rgb(56, 56, 82);
+    margin-top: 16px;
+}

@@ -33,8 +33,7 @@ const EditProfile = () => {
                 body: JSON.stringify({
                     idToken: token,
                     displayName: username,
-                    photoUrl: photo, 
-                    returnSecureToken: true, 
+                    photoUrl: photo
                 }),
             })
 
@@ -48,8 +47,6 @@ const EditProfile = () => {
             setError("");
             setLoading(false);
             navigate("/");
-            localStorage.setItem("token", user.idToken);
-            
         } catch (error) {
             setError(error.message);
             setLoading(false);
@@ -88,13 +85,13 @@ const EditProfile = () => {
     return (
         <div className="form-wrapper">
             <form className="form" onSubmit={submitFormHandler}>
-                <h1>{user ? "User Details" : "Update Profile"}</h1>
+                <h1>{user?.displayName ? "User Details" : "Update Profile"}</h1>
                 {
-                    user ?
+                    user?.displayName ?
                         <>
                             <p>User Name = {user.displayName}</p>
                             <p>User Email = {user.email}</p>
-                            <img src={user.photoUrl} />
+                            <img height="300" src={user.photoUrl} />
                             <button onClick={() => setUser(null)} className="secondary">Edit Profile</button>
                         </>
                     : <>
