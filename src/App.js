@@ -1,8 +1,8 @@
-import SignupForm from "./components/Form/SignupForm";
+import Layout from "./components/Layout/Layout";
 
 const App = () => {
   return (
-    <SignupForm />
+    <Layout />
   );
 }
 

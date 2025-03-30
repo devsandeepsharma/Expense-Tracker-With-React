@@ -41,5 +41,12 @@
 }
 
 .form .secondary {
+    padding: 8px;
+    border: 0;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    color: bisque;
     background-color: rgb(56, 56, 82);
 }
