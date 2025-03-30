@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 
+import "./home.css"
+
 const AddExpenseForm = () => {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("Food");
+    const [editId, setEditId] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [expenses, setExpenses] = useState([]);
 
-    const addExpenseHandler = (e) => {
+    const addExpenseHandler = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
@@ -19,7 +22,11 @@ const AddExpenseForm = () => {
             return;
         }
 
-        addExpense({amount, description, category});
+        if (editId) {
+            await updateExpense(editId, { amount, description, category });
+        } else {
+            await addExpense({ amount, description, category });
+        }
         
         setAmount("");
         setDescription("");
@@ -78,6 +85,58 @@ const AddExpenseForm = () => {
         }
     }
 
+    const editExpense = (expense) => {
+        setAmount(expense.amount);
+        setDescription(expense.description);
+        setCategory(expense.category);
+        setEditId(expense.id);
+    };
+
+    const deleteExpense = async (id) => {
+        try {
+            const res = await fetch(
+                `https://expense-tracker-3a081-default-rtdb.firebaseio.com/expenses/${id}.json`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (!res.ok) {
+                throw new Error("Failed to delete expense.");
+            }
+
+            console.log("Expense successfully deleted");
+            setExpenses(expenses.filter((expense) => expense.id !== id));
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    const updateExpense = async (id, updatedExpense) => {
+        try {
+            const res = await fetch(
+                `https://expense-tracker-3a081-default-rtdb.firebaseio.com/expenses/${id}.json`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedExpense),
+                }
+            );
+
+            if (!res.ok) {
+                throw new Error("Failed to update expense.");
+            }
+
+            console.log("Expense successfully updated");
+            await getExpense();
+            setEditId(null);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         getExpense();
     }, [])
@@ -104,7 +163,13 @@ const AddExpenseForm = () => {
                     <option value="Salary">Salary</option>
                     <option value="Shopping">Shopping</option>
                 </select>
-                <button className="primary" type="submit">{loading ? "Adding": "Add Expense"}</button>
+                <button className="primary" type="submit">
+                    {
+                        editId ? 
+                          loading ? "Updating": "Update Expense"
+                        : loading ? "Adding": "Add Expense"
+                    }
+                </button>
                 <p>{error && error}</p>
             </form>
 
@@ -130,6 +195,10 @@ const AddExpenseForm = () => {
                             <h2>{expense.category}</h2>
                             <p style={{fontSize:"20px"}}>Rs. {expense.amount}/-</p>
                             <p>{expense.description}</p>
+                            <div style={{display: "flex", gap: "8px"}}>
+                                <button className="secondary" style={{marginTop: "0"}} onClick={() => editExpense(expense)}>Edit</button>
+                                <button className="secondary" style={{marginTop: "0"}} onClick={() => deleteExpense(expense.id)}>Delete</button>
+                            </div>
                         </li>
                     ))}
                 </ul>
