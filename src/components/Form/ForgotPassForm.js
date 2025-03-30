@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const ForgotPassForm = () => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -13,34 +12,37 @@ const LoginForm = () => {
         setError("");
         setLoading(true);
 
-        if(email === "" || password === "") {
+        if(email === "") {
             setError("Invalid Field");
             setLoading(false);
             return;
         }
 
-        loginUser({email, password});
+        forgotPass();
     }
 
-    const loginUser = async (userData) => {
+    const forgotPass = async () => {
         try {
-            const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmADQQx9NA-3D5knEfkuhtJbI9buxLkYI", {
+            const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDmADQQx9NA-3D5knEfkuhtJbI9buxLkYI", {
                 method: "POST",
-                body: JSON.stringify(userData)
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    requestType: "PASSWORD_RESET",
+                    email: email,
+                }),
             })
 
-            const user = await res.json();
+            const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(user.error.message || "Login failed");
+                throw new Error(data.error.message);
             }
 
-            console.log(user);
             setError("");
             setLoading(false);
-            navigate("/");
-            localStorage.setItem("token", user.idToken);
-            
+            navigate("/login");
         } catch (error) {
             setError(error.message);
             setLoading(false);
@@ -50,18 +52,15 @@ const LoginForm = () => {
     return (
         <div className="form-wrapper">
             <form className="form" onSubmit={submitFormHandler}>
-                <h1>Login Page</h1>
+                <h1>Forgot Password Page</h1>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" />
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" />
                 <button className="primary" type={loading ? "button" : "submit"}>
-                    {loading ? "Sending Request" : "Login"}
+                    {loading ? "Sending Request" : "Forgot Password"}
                 </button>
-                <Link style={{textAlign: "center"}} to="/forgot">Forgot Password</Link>
-                <Link className="secondary" to="/signup">Create new Account</Link>
                 {error && <p>{error}</p>}
             </form>
         </div>
     )
 }
 
-export default LoginForm;
+export default ForgotPassForm;
