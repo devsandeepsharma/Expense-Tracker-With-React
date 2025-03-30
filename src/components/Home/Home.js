@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./home.css";
 
@@ -7,6 +7,7 @@ const Home = () => {
 
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const verifyEmail = async ( ) => {
 
@@ -43,11 +44,19 @@ const Home = () => {
         }
     }
 
+    const logoutUser = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    }
+
     return (
         <>
             <header>
                 <h1>Expense Tracker</h1>
-                <Link to="/edit">Edit Profile</Link>
+                <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "16px"}}>
+                    <Link to="/edit">Edit Profile</Link>
+                    <button className="secondary" onClick={logoutUser}>Logout</button>
+                </div>
             </header>
             <main>
                 <h2>Welcome to expense tracker</h2>

@@ -13,6 +13,10 @@ header a {
     border-radius: 8px;
 }
 
+header .secondary {
+    margin-top: 0;
+}
+
 main {
     display: block;
     margin: auto;
@@ -20,7 +24,7 @@ main {
     text-align: center;
 }
 
-.secondary {
+main .secondary {
     padding: 8px 16px;
     border: 0;
     border-radius: 4px;
