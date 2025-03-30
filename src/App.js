@@ -1,5 +1,9 @@
+import SignupForm from "./components/Form/SignupForm";
+
 const App = () => {
-  return <h1>Expense Tracker With React</h1>;
+  return (
+    <SignupForm />
+  );
 }
 
 export default App;
