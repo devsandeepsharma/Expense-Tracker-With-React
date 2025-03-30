@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import AddExpenseForm from "./AddExpenseForm";
 import "./home.css";
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const token = localStorage.getItem("token");
 
     const verifyEmail = async ( ) => {
 
@@ -64,6 +66,7 @@ const Home = () => {
                     {loading ? "Verifing..." : "Verify Email"}
                 </button>
                 <p>{error && error}</p>
+                {token && <AddExpenseForm />}
             </main>
         </>
     )

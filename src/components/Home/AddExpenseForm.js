@@ -1,0 +1,89 @@
+import { useState } from "react";
+
+const AddExpenseForm = () => {
+    const [amount, setAmount] = useState("");
+    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("Food");
+    const [error, setError] = useState("");
+
+    const [expenses, setExpenses] = useState([]);
+
+    const addExpenseHandler = (e) => {
+        e.preventDefault();
+        setError("");
+
+        if (!amount || !description) {
+            setError("Please fill all fields!");
+            return;
+        }
+
+        const newExpense = {
+            id: Math.random().toString(),
+            amount,
+            description,
+            category,
+        };
+
+        setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+        setAmount("");
+        setDescription("");
+        setCategory("Food");
+    };
+
+    return (
+        <div style={{marginTop: "16px", padding: "0 64px"}}>
+            <form className="form" onSubmit={addExpenseHandler}>
+                <h2>Add Daily Expense</h2>
+                <input
+                    type="number"
+                    placeholder="Amount spent"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Expense description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Shopping">Shopping</option>
+                </select>
+                <button className="primary" type="submit">Add Expense</button>
+                <p>{error && error}</p>
+            </form>
+
+            <h3 style={{margin: "24px 0", fontSize: "30px"}}>Expenses List</h3>
+            {expenses.length === 0 ? (
+                <p>No expenses added yet.</p>
+            ) : (
+                <ul>
+                    {expenses.map((expense) => (
+                        <li
+                            style={{
+                                display: "flex", 
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "flex-start",
+                                gap: "8px",
+                                border: "1px solid",
+                                padding: "16px",
+                                width: "200px"
+                            }}
+                            key={expense.id}
+                        >
+                            <h2>{expense.category}</h2>
+                            <p style={{fontSize:"20px"}}>Rs. {expense.amount}/-</p>
+                            <p>{expense.description}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+};
+
+export default AddExpenseForm;
