@@ -1,12 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import SignupForm from "../Form/SignupForm"
 import LoginForm from "../Form/LoginForm"
+import Home from "../Home/Home"
+import EditProfile from "../Home/EditProfile"
 
 const Layout = (props) => {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <h1>Welcome to expense Tracker</h1>
+            element: <Home />
         },
         {
             path: "/login",
@@ -15,6 +17,10 @@ const Layout = (props) => {
         {
             path: "/signup",
             element: <SignupForm />
+        },
+        {
+            path: "/edit",
+            element: <EditProfile />
         }
     ])
 
