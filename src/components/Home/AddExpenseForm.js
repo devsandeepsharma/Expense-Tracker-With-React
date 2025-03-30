@@ -1,34 +1,86 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const AddExpenseForm = () => {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("Food");
     const [error, setError] = useState("");
-
+    const [loading, setLoading] = useState(false);
     const [expenses, setExpenses] = useState([]);
 
     const addExpenseHandler = (e) => {
         e.preventDefault();
         setError("");
+        setLoading(true);
 
         if (!amount || !description) {
             setError("Please fill all fields!");
+            setLoading(false);
             return;
         }
 
-        const newExpense = {
-            id: Math.random().toString(),
-            amount,
-            description,
-            category,
-        };
-
-        setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+        addExpense({amount, description, category});
+        
         setAmount("");
         setDescription("");
         setCategory("Food");
     };
+
+    const addExpense = async (expense) => {
+        try {
+            const res = await fetch("https://expense-tracker-3a081-default-rtdb.firebaseio.com/expenses.json", {
+                method: "POST",
+                body: JSON.stringify(expense)
+            })
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error.message);
+            }
+
+            console.log(data);
+            setLoading(false);
+            getExpense();
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    }
+
+    const getExpense = async (expense) => {
+        try {
+            const res = await fetch("https://expense-tracker-3a081-default-rtdb.firebaseio.com/expenses.json")
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error.message);
+            }
+
+            const filterExpenses = [];
+
+            for(const key in data) {
+                filterExpenses.push({
+                    id: key,
+                    category: data[key].category,
+                    description: data[key].description,
+                    amount: data[key].amount
+                })
+            }
+
+            setExpenses(filterExpenses);
+            setLoading(false);
+            console.log(data)
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getExpense();
+    }, [])
 
     return (
         <div style={{marginTop: "16px", padding: "0 64px"}}>
@@ -52,7 +104,7 @@ const AddExpenseForm = () => {
                     <option value="Salary">Salary</option>
                     <option value="Shopping">Shopping</option>
                 </select>
-                <button className="primary" type="submit">Add Expense</button>
+                <button className="primary" type="submit">{loading ? "Adding": "Add Expense"}</button>
                 <p>{error && error}</p>
             </form>
 
@@ -60,7 +112,7 @@ const AddExpenseForm = () => {
             {expenses.length === 0 ? (
                 <p>No expenses added yet.</p>
             ) : (
-                <ul>
+                <ul style={{display: "flex", flexWrap: "wrap"}}>
                     {expenses.map((expense) => (
                         <li
                             style={{
