@@ -4,34 +4,58 @@ import LoginForm from "../Form/LoginForm"
 import Home from "../Home/Home"
 import EditProfile from "../Home/EditProfile"
 import ForgotPassForm from "../Form/ForgotPassForm"
+import PrivateRoute from "./PrivateRoute"
+import AuthWrapper from "./AuthWrapper"
 
 const Layout = (props) => {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Home />
+            element: (
+                    <AuthWrapper>
+                        <PrivateRoute><Home /></PrivateRoute>
+                    </AuthWrapper>
+                )
         },
         {
             path: "/login",
-            element: <LoginForm />
+            element: (
+                <AuthWrapper>
+                    <LoginForm />
+                </AuthWrapper>
+            )
         },
         {
             path: "/signup",
-            element: <SignupForm />
+            element: (
+                <AuthWrapper>
+                    <SignupForm />
+                </AuthWrapper>
+            )
         },
         {
             path: "/edit",
-            element: <EditProfile />
+            element: (
+                <AuthWrapper>
+                    <PrivateRoute><EditProfile /></PrivateRoute>
+                </AuthWrapper>
+            )
         },
         {
             path: "/forgot",
-            element: <ForgotPassForm />
+            element: (
+                <AuthWrapper>
+                    <ForgotPassForm />
+                </AuthWrapper>
+            )
         },
     ])
 
     return (
         <RouterProvider router={router}>
-            {props.children}
+            <AuthWrapper>
+
+            </AuthWrapper>
         </RouterProvider>
     )
 }

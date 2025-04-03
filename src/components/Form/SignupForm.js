@@ -1,10 +1,12 @@
 import { useState } from "react";
 
+import { Link, useNavigate } from "react-router-dom";
+
 import "./form.css";
-import { Link } from "react-router-dom";
 
 const SignupForm = () => {
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [conPassword, setConPassword] = useState("");
@@ -47,6 +49,7 @@ const SignupForm = () => {
             console.log(user);
             setError("");
             setLoading(false);
+            navigate("/login");
         } catch (error) {
             setError(error.message);
             setLoading(false);

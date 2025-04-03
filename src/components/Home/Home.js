@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import AddExpenseForm from "./AddExpenseForm";
 import "./home.css";
 
 const Home = () => {
 
+    const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token)
+
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-    const token = localStorage.getItem("token");
 
     const verifyEmail = async ( ) => {
-
-        const token = localStorage.getItem("token"); 
         if (!token) {
             throw new Error("User not authenticated. Please log in again.");
         }

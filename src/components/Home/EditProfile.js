@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
+    const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token);
+
     const [username, setUsername] = useState("");
     const [photo, setPhoto] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
-
-    const navigate = useNavigate();
 
     const submitFormHandler = (e) => {
         e.preventDefault();
@@ -24,9 +26,7 @@ const EditProfile = () => {
         updateProfile({username, photo});
     }
 
-    const updateProfile = async (userData) => {
-        const token = localStorage.getItem("token");
-
+    const updateProfile = async () => {
         try {
             const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDmADQQx9NA-3D5knEfkuhtJbI9buxLkYI", {
                 method: "POST",
@@ -54,8 +54,6 @@ const EditProfile = () => {
     }
 
     const getUserData = async () => {
-        const token = localStorage.getItem("token");
-
         try {
             const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDmADQQx9NA-3D5knEfkuhtJbI9buxLkYI", {
                 method: "POST",

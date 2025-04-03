@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { authActions } from "../../store/auth";
 
 const LoginForm = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     const submitFormHandler = (e) => {
         e.preventDefault();
@@ -40,7 +46,7 @@ const LoginForm = () => {
             setLoading(false);
             navigate("/");
             localStorage.setItem("token", user.idToken);
-            
+            dispatch(authActions.login(user.idToken));
         } catch (error) {
             setError(error.message);
             setLoading(false);
