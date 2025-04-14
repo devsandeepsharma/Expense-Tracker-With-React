@@ -1,3 +1,16 @@
+:root {
+  --clr-primary: #007BFF;
+  --clr-bg: #FFFFFF;
+  --clr-text: #333333;
+
+  --ff-base: "Poppins", sans-serif;
+  --fw-300: 300;
+  --fw-400: 400;
+  --fw-500: 500;
+  --fw-700: 700;
+}
+
+/* default */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,4 +23,11 @@ li {
 
 a {
   text-decoration: none;
+}
+
+body {
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--ff-base);
+  font-weight: var(--fw-400);
 }
