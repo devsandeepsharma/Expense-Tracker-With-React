@@ -7,10 +7,13 @@ import Spinner from "../components/UI/Spinner";
 import formValidate from "../utils/formValidate";
 import { loginUser } from "../services/auth";
 import "./form.css";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/auth";
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -63,7 +66,8 @@ const Login = () => {
             token: user.idToken
         }
 
-        localStorage.setItem("user", JSON.stringify(user))
+        dispatch(authActions.login(userData));
+        localStorage.setItem("user", JSON.stringify(userData))
         setLoading(false);
         navigate("/");
     }

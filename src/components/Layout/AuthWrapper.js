@@ -9,13 +9,13 @@ const AuthWrapper = ({ children }) => {
     const navigate = useNavigate();
     
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const user = JSON.parse(localStorage.getItem("user"));
 
-        if (!token) {
+        if (!user) {
             dispatch(authActions.logout());
             navigate("/login");
         } else {
-            dispatch(authActions.login(token));
+            dispatch(authActions.login(user));
             navigate("/");
         }
     }, [dispatch]);
