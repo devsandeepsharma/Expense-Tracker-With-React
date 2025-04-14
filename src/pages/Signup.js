@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
+import formValidate from "../utils/formValidate";
 import "./signup.css";
 
 const Signup = () => {
@@ -10,8 +11,14 @@ const Signup = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        confirmpassword: '',
+        confirmPassword: '',
     });
+
+    const [error, setError] = useState({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    })
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,9 +30,22 @@ const Signup = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+
+        const errorMessages = formValidate(formData);
+        if(errorMessages) {
+            setError(errorMessages);
+            return;
+        }
+
+        setError({
+            email: '',
+            password: '',
+            confirmPassword: '',
+        })
+
         console.log(formData)
     }
-    
+
     return (
         <form className="form" onSubmit={handleFormSubmit} noValidate>
             <h2>Create new Account</h2>
@@ -34,7 +54,7 @@ const Signup = () => {
                 type="email"
                 labelText="Enter Your Email here.."
                 placeholder="dummy@gmail.com"
-                errText=""
+                errText={error.email}
                 value={formData.email}
                 onChange={handleChange}
             />
@@ -43,17 +63,17 @@ const Signup = () => {
                 type="password"
                 labelText="Enter Your Password here.."
                 placeholder="123567"
-                errText=""
+                errText={error.password}
                 value={formData.password}
                 onChange={handleChange}
             />
             <Input 
-                name="confirmpassword"
+                name="confirmPassword"
                 type="password"
                 labelText="Enter Your Password Again here.."
                 placeholder="123567"
-                errText=""
-                value={formData.confirmpassword}
+                errText={error.confirmPassword}
+                value={formData.confirmPassword}
                 onChange={handleChange}
             />
             <Button className="btn-primary">Signup</Button>
