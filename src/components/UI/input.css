@@ -1,0 +1,22 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.input-container input {
+    text-indent: .25rem;
+    padding: .5rem;
+    font-family: inherit;
+    border-radius: 8px;
+    border: 1px solid var(--clr-text-300);
+}
+
+.input-container input:focus {
+    outline: 1px solid var(--clr-text);
+}
+
+.input-container p {
+    font-size: 14px;
+    color: red;
+}

@@ -7,4 +7,4 @@ import "./index.css";
 const rootElement = document.getElementById("root");
 
 const root = ReactDOM.createRoot(rootElement);
-root.render(<App />)
+root.render(<div className='container'><App /></div>)

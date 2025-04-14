@@ -1,5 +1,5 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import SignupForm from "../Form/SignupForm"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import LoginForm from "../Form/LoginForm"
 import Home from "../Home/Home"
 import EditProfile from "../Home/EditProfile"
@@ -7,7 +7,9 @@ import ForgotPassForm from "../Form/ForgotPassForm"
 import PrivateRoute from "./PrivateRoute"
 import AuthWrapper from "./AuthWrapper"
 
-const Layout = (props) => {
+import Signup from "../../pages/Signup";
+
+const Layout = () => {
     const router = createBrowserRouter([
         {
             path: "/",
@@ -27,11 +29,7 @@ const Layout = (props) => {
         },
         {
             path: "/signup",
-            element: (
-                <AuthWrapper>
-                    <SignupForm />
-                </AuthWrapper>
-            )
+            element: <Signup />
         },
         {
             path: "/edit",
@@ -52,11 +50,7 @@ const Layout = (props) => {
     ])
 
     return (
-        <RouterProvider router={router}>
-            <AuthWrapper>
-
-            </AuthWrapper>
-        </RouterProvider>
+        <RouterProvider router={router} />
     )
 }
 

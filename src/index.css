@@ -1,7 +1,7 @@
 :root {
-  --clr-primary: #007BFF;
   --clr-bg: #FFFFFF;
-  --clr-text: #333333;
+  --clr-text: #2E2E2E ;
+  --clr-text-300: rgba(0, 0, 0, 0.2);
 
   --ff-base: "Poppins", sans-serif;
   --fw-300: 300;
@@ -30,4 +30,16 @@ body {
   color: var(--clr-text);
   font-family: var(--ff-base);
   font-weight: var(--fw-400);
+}
+
+.container {
+  display: block;
+  margin: auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 750px) {
+  .container {
+    padding: 0 4rem;
+  }
 }
