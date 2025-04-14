@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
+import Spinner from "../components/UI/Spinner";
 import formValidate from "../utils/formValidate";
+import { createUser } from "../services/auth";
 import "./signup.css";
 
 const Signup = () => {
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -20,6 +24,8 @@ const Signup = () => {
         confirmPassword: '',
     })
 
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -28,12 +34,15 @@ const Signup = () => {
         }));
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
 
         const errorMessages = formValidate(formData);
         if(errorMessages) {
             setError(errorMessages);
+            setLoading(false);
             return;
         }
 
@@ -43,7 +52,16 @@ const Signup = () => {
             confirmPassword: '',
         })
 
-        console.log(formData)
+        const user = await createUser(formData);
+
+        if(user) {
+            setError(user);
+            setLoading(false);
+            return
+        }
+
+        setLoading(false);
+        navigate("/login");
     }
 
     return (
@@ -76,7 +94,10 @@ const Signup = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
             />
-            <Button className="btn-primary">Signup</Button>
+            <Button className="btn-primary">
+                Signup 
+                {loading &&  <Spinner />}
+            </Button>
             <p className="form-link">Already have an account? <Link to="/login">Login</Link></p>
         </form>
     )
