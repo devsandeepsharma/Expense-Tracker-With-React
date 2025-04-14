@@ -13,7 +13,7 @@ const formValidate = ({email, password, confirmPassword}) => {
         error.password = "Your password must be at least 6 characters long.";
     }
 
-    if(password !== confirmPassword) {
+    if(confirmPassword !== undefined && password !== confirmPassword) {
         error.confirmPassword = "Oops! Passwords don’t match.";
     }
 

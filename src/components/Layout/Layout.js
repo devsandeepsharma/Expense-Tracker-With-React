@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import LoginForm from "../Form/LoginForm"
 import Home from "../Home/Home"
 import EditProfile from "../Home/EditProfile"
 import ForgotPassForm from "../Form/ForgotPassForm"
@@ -8,24 +7,17 @@ import PrivateRoute from "./PrivateRoute"
 import AuthWrapper from "./AuthWrapper"
 
 import Signup from "../../pages/Signup";
+import Login from "../../pages/Login";
 
 const Layout = () => {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: (
-                    <AuthWrapper>
-                        <PrivateRoute><Home /></PrivateRoute>
-                    </AuthWrapper>
-                )
+            element: <Home />
         },
         {
             path: "/login",
-            element: (
-                <AuthWrapper>
-                    <LoginForm />
-                </AuthWrapper>
-            )
+            element: <Login />
         },
         {
             path: "/signup",
@@ -41,11 +33,7 @@ const Layout = () => {
         },
         {
             path: "/forgot",
-            element: (
-                <AuthWrapper>
-                    <ForgotPassForm />
-                </AuthWrapper>
-            )
+            element: <ForgotPassForm />
         },
     ])
 

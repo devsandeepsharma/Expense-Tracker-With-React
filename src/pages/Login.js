@@ -5,23 +5,21 @@ import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
 import Spinner from "../components/UI/Spinner";
 import formValidate from "../utils/formValidate";
-import { createUser } from "../services/auth";
+import { loginUser } from "../services/auth";
 import "./form.css";
 
-const Signup = () => {
+const Login = () => {
 
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
-        confirmPassword: '',
+        password: ''
     });
 
     const [error, setError] = useState({
         email: '',
-        password: '',
-        confirmPassword: '',
+        password: ''
     })
 
     const [loading, setLoading] = useState(false);
@@ -40,6 +38,7 @@ const Signup = () => {
         setLoading(true);
 
         const errorMessages = formValidate(formData);
+
         if(errorMessages) {
             setError(errorMessages);
             setLoading(false);
@@ -48,25 +47,30 @@ const Signup = () => {
 
         setError({
             email: '',
-            password: '',
-            confirmPassword: '',
+            password: ''
         })
 
-        const user = await createUser(formData);
-
-        if(user) {
+        const user = await loginUser(formData);
+        
+        if(!user.localId) {
             setError(user);
             setLoading(false);
-            return
+            return;
         }
 
+        const userData = {
+            userId: user.localId,
+            token: user.idToken
+        }
+
+        localStorage.setItem("user", JSON.stringify(user))
         setLoading(false);
-        navigate("/login");
+        navigate("/");
     }
 
     return (
         <form className="form" onSubmit={handleFormSubmit} noValidate>
-            <h2>Create new Account</h2>
+            <h2>Hey, Welcome Back 👋</h2>
             <Input 
                 name="email"
                 type="email"
@@ -85,28 +89,20 @@ const Signup = () => {
                 value={formData.password}
                 onChange={handleChange}
             />
-            <Input 
-                name="confirmPassword"
-                type="password"
-                labelText="Enter Your Password Again here.."
-                placeholder="123567"
-                errText={error.confirmPassword}
-                value={formData.confirmPassword}
-                onChange={handleChange}
-            />
+            <p className="forgotpass-link"><Link to="/forgot">Forgot Password</Link></p>
             <Button 
                 className="btn-primary"
                 disabled={loading}
             >
                 {
                     loading 
-                        ? <>Signing up... <Spinner /></>
-                        : "Signup "
+                        ? <>Logging in... <Spinner /></>
+                        : "Login "
                 }
             </Button>
-            <p className="form-link">Already have an account? <Link to="/login">Login</Link></p>
+            <p className="form-link">Don't have an account? <Link to="/signup">Sign up</Link></p>
         </form>
     )
 }
 
-export default Signup;
+export default Login;
