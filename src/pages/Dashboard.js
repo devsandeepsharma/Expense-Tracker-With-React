@@ -1,4 +1,5 @@
 import Progress from "../components/UI/Graphs/Progress";
+import PieChart from "../components/UI/Graphs/PieChart";
 import "./dashbord.css";
 
 const Dashboard = () => {
@@ -28,7 +29,15 @@ const Dashboard = () => {
                         ))}
                     </ul>
                 </div>
-                <div className="transaction_graph"></div>
+                <div className="transaction_graph">
+                    <h3>Monthly Expense Breakdown</h3>
+                    <PieChart  data={[
+                        { label: "Salary", value: 50000 },
+                        { label: "Freelance", value: 10000 },
+                        { label: "Dividends", value: 2000 },
+                        { label: "Side Hustle", value: 5000 },
+                    ]}/>
+                </div>
             </div>
             <div className="dashboard_accounts">
                 <ul className="accounts_wrapper">

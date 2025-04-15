@@ -77,13 +77,18 @@
 }
 
 .transaction_graph {
-    height: 200px;
-    border: 1px dashed var(--clr-text-300);
+    border: 1px solid var(--clr-text-300);
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--clr-text-300);
+    padding: 1rem;
+}
+
+.transaction_graph h3 {
+    font-size: 18px;
+    margin-bottom: 1rem;
+}
+
+.transaction_graph canvas {
+    width: 200px;
 }
 
 .dashboard_accounts {
