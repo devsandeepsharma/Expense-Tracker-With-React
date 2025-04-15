@@ -32,6 +32,10 @@ body {
   font-weight: var(--fw-400);
 }
 
+main {
+  text-align: left;
+}
+
 .container {
   display: block;
   margin: auto;

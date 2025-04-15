@@ -1,0 +1,157 @@
+.dashboard_budget {
+    border: 1px solid var(--clr-text-300);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.dashboard_budget .budget_title {
+    font-size: 18px;
+    margin-bottom: .25rem;
+}
+
+.dashboard_budget .budget_desc {
+    font-size: 16px;
+    margin-bottom: .5rem;
+    font-weight: var(--fw-300);
+}
+
+.dashboard_budget .budget_used {
+    font-size: 12px;
+    margin-top: .25rem;
+    text-align: right;
+}
+
+.dashboard_transaction {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.transaction_history {
+    border: 1px solid var(--clr-text-300);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.transaction_history_title {
+    font-size: 18px;
+    margin-bottom: 1rem;
+}
+
+.transaction_history_wrapper {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.transaction_history_wrapper li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transaction_history_wrapper h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: var(--fw-700);
+}
+
+.transaction_history_wrapper p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.amount {
+    font-weight: var(--fw-500);
+}
+
+.tag {
+    font-size: 12px;
+    margin-left: 6px;
+    font-weight: var(--fw-400);
+}
+
+.transaction_graph {
+    height: 200px;
+    border: 1px dashed var(--clr-text-300);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--clr-text-300);
+}
+
+.dashboard_accounts {
+    margin: 2rem 0;
+}
+
+.accounts_wrapper {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.accounts_button {
+    background-color: var(--clr-text-300);
+    color: var(--clr-text);
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1 1 200px;
+    text-align: center;
+    font-weight: var(--fw-500);
+    transition: background-color 0.3s ease;
+}
+
+.accounts_button:hover {
+    background-color: var(--clr-text);
+    color: var(--clr-bg);
+}
+
+.account_card {
+    background-color: var(--clr-bg);
+    border: 1px solid var(--clr-text-300);
+    padding: 1rem;
+    border-radius: 8px;
+    flex: 1 1 200px;
+}
+
+.account_title {
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+}
+
+.account_budget {
+    font-size: 14px;
+    margin-bottom: 1rem;
+    color: var(--clr-text-300);
+}
+
+.account_toggle {
+    background-color: transparent;
+    border: 1px solid var(--clr-text);
+    border-radius: 20px;
+    padding: 0.25rem 1rem;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--clr-text);
+}
+
+@media (min-width: 750px) {
+    .dashboard_transaction {
+        flex-direction: row;
+    }
+
+    .transaction_history,
+    .transaction_graph {
+        width: 50%;
+    }
+}

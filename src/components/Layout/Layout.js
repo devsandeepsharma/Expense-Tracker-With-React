@@ -8,6 +8,7 @@ import AuthWrapper from "./AuthWrapper"
 
 import Signup from "../../pages/Signup";
 import Login from "../../pages/Login";
+import Dashboard from "../../pages/Dashboard";
 
 const Layout = () => {
     const router = createBrowserRouter([
@@ -15,9 +16,13 @@ const Layout = () => {
             path: "/",
             element: (
                 <AuthWrapper>
-                    <Home />
+                    <Dashboard />
                 </AuthWrapper>
             )
+        },
+        {
+            path: "/home",
+            element: <Home />
         },
         {
             path: "/login",
